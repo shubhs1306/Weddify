@@ -1,0 +1,169 @@
+version: "3"
+
+
+services:
+  db:
+    image: postgres:10-alpine
+    volumes:
+      - ./init-db:/docker-entrypoint-initdb.d
+    container_name: db
+    hostname: db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "54320:5432"
+    networks:
+      - shared_network
+
+  rabbit:
+    image: rabbitmq:3-management
+    container_name: rabbit
+    hostname: rabbit
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+      - RABBITMQ_DEFAULT_VHOST=/
+      - RABBITMQ_VHOSTS=backend_vhost
+    ports:
+      - "5682:5672"
+      - "15682:15672"
+    networks:
+      - shared_network
+
+  services_app:
+    build: ./services
+    container_name: services_app
+    image: services_app:latest
+    hostname: services_app
+    restart: on-failure
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./services:/Weddify2/services
+    command: >
+      sh -c "./wait-for db:5432 && ./wait-for rabbit:5672 &&
+             python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8001"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db
+      - rabbit
+    networks:
+      - shared_network
+
+  orders_app:
+    build: ./orders
+    container_name: orders_app
+    image: orders_app:latest
+    hostname: orders_app
+    restart: on-failure
+    ports:
+      - "8003:8003"
+    volumes:
+      - ./orders:/Weddify2/orders
+    command: >
+      sh -c "./wait-for db:5432 && ./wait-for rabbit:5672 && ./wait-for services_app:8001 &&
+             python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8003"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db
+      - rabbit
+      - services_app
+    networks:
+      - shared_network
+
+  accounts_app:
+    build: ./accounts
+    container_name: accounts_app
+    image: accounts_app:latest
+    hostname: accounts_app
+    restart: on-failure
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./accounts:/Weddify2/accounts
+    command: >
+      sh -c "./wait-for db:5432 && ./wait-for rabbit:5672 && ./wait-for orders_app:8003 &&
+             python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8002"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db
+      - rabbit
+      - orders_app
+    networks:
+      - shared_network
+
+  pages_app:
+    build: ./pages
+    container_name: pages_app
+    image: pages_app:latest
+    hostname: pages_app
+    restart: on-failure
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./pages:/Weddify2/pages
+    command: >
+      sh -c "./wait-for db:5432 && ./wait-for rabbit:5672 && ./wait-for accounts_app:8002 &&
+             python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db
+      - rabbit
+      - accounts_app
+    networks:
+      - shared_network
+
+  email_app:
+    build: ./email
+    container_name: email_app
+    image: email_app:latest
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./email:/Weddify2/email
+    command: >
+      sh -c "./wait-for pages_app:8000 &&
+             java -jar emailapp.jar"
+    depends_on:
+      - pages_app
+      - rabbit
+      - db
+    networks:
+      - shared_network
+
+  nginx_weddify:
+    build: ./nginx
+    container_name: nginx_weddify
+    image: nginx_weddify:latest
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - webroot:/var/www/html
+    depends_on:
+      - email_app
+    networks:
+      - shared_network
+
+volumes:
+  certbot-etc:
+  webroot:
+
+networks:
+  shared_network:
+    driver: bridge

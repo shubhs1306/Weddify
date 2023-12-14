@@ -1,0 +1,67 @@
+{% load static %}
+<header class="main-header sticky-header header-with-top">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="" href="/home">
+                <img src="{% static 'img/logos/weddify_banner.png' %}" alt="Weddify">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="navbar-collapse collapse w-100" id="navbar">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a href="/contact-us" class="nav-link">
+                            Contact Us
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="/service/">
+                                Services
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="/../search?keyword=&service_type=Photographer">Photographer</a>
+                                <a class="dropdown-item" href="/../search?keyword=&service_type=Venue">Venue</a>
+                                <a class="dropdown-item" href="/../search?keyword=&service_type=Caterer">Caterer</a>
+                                <a class="dropdown-item" href="/../search?keyword=&service_type=Bridal+services">Bridal Services</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown m-hide">
+                        <a href="#full-page-search" class="nav-link">
+                            <i class="fa fa-search" ></i>Search
+                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="/service/">
+                                Hi, {{user.first_name}}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="/account/dashboard">Dashboard</a>
+                                <a class="dropdown-item" href="/account/profile">Profile</a>
+                                <div><a class="dropdown-item" href="javascript:{document.getElementById('logout').submit()}">Logout</a>
+                                    <form action="/account/logout" id="logout" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    {% else %}
+                    <li class="nav-item">
+                        <a href="/account/login" class="nav-link" ><i class="fa fa-sign-in"></i> Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/account/register" class="nav-link"><i class="fa fa-user"></i> Register</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>

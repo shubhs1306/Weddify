@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+
+{% block title %} | Home {% endblock %}
+
+{% block content %}
+
+{% load humanize %}
+
+{% load static %}
+
+
+<div class="banner" id="banner">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <div class="search-box-4 sb-8">
+            <form action="{% url 'search' %}" method="">
+                <div class="form-group">
+                    <select class="form-control" name="city">
+                        <option selected="true" disabled="disabled">City</option>
+                        {% for city in city_search %}
+                        <option value="{{city}}">{{city}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" name="state">
+                        <option selected="true" disabled="disabled">State</option>
+                        {% for state in state_search %}
+                        <option value="{{state}}">{{state}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" name="service_type">
+                        <option selected="true" disabled="disabled">Select Service </option>
+                        <option value="Photographer" >Photographer</option>
+                        <option value="Venue">Venue</option>
+                        <option value="Caterer" >Caterer</option>
+                        <option value="Bridal Services">Bridal Services</option>
+                    </select>
+                </div>
+                <div class="range-slider clearfix">
+                    <label>Price</label>
+                    <div data-min="0" data-max="150000" data-min-name="min_featured_package_price"
+                        data-max-name="max_featured_package_price" data-unit="INR" class="range-slider-ui ui-slider"
+                        aria-disabled="false"></div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-block button-theme btn-md">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="carousel-inner banner-slider-inner text-center">
+            <div class="carousel-item banner-max-height active item-bg">
+                <img class="d-block" src="{% static 'img/banner-1.jpg' %}" alt="">
+                <div class="carousel-content container banner-info-2 bi-2 text-right">
+                    <br><h3>Wedding made simple!</h3>
+                    <h5>Looking for the best wedding venues, <br>
+                        caterers, photographers and bridal services?<br>
+                        We got you covered!</h5>
+                    <a href="/services" class="btn btn-lg btn-theme">View All Services</a>
+                </div>
+            </div>
+            <div class="carousel-item banner-max-height item-bg">
+                <img class="d-block " src="{% static 'img/banner-3.jpg' %}" alt="">
+                <div class="carousel-content container banner-info-2 bi-2 text-right">
+                    <br><h3>One Stop Solution</h3>
+                    <h5>Looking for the best wedding venues, <br>
+                        caterers, photographers and bridal services?<br>
+                        We got you covered!</h5>
+                        <a href="/services" class="btn btn-lg btn-theme">View All Services</a>
+                </div>
+            </div>
+            <div class="carousel-item banner-max-height item-bg">
+                <img class="d-block" src="{% static 'img/banner.jpg' %}" alt="">
+                <div class="carousel-content container banner-info-2 bi-2 text-right">
+                    <br><h3>Happy wedding!</h3>
+                    <h5>Looking for the best wedding venues, <br>
+                        caterers, photographers and bridal services?<br>
+                        We got you covered!</h5>
+                        <a href="/services" class="btn btn-lg btn-theme">View All Services</a>
+                </div>
+            </div>
+        </div>
+
+        
+        <a class="carousel-control-prev none-580" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="slider-mover-left" aria-hidden="true">
+                <i class="fa fa-angle-left"></i>
+            </span>
+        </a>
+        <a class="carousel-control-next none-580" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="slider-mover-right" aria-hidden="true">
+                <i class="fa fa-angle-right"></i>
+            </span>
+        </a>
+    </div>
+</div>
+
+<div class="featured-service content-area-5">
+    <div class="container">
+        <div class="main-title">
+            <h1>Recommended <span>Services</span></h1>
+        </div>
+        <div class="slick-slider-area clearfix">
+            <div class="row slick-carousel"
+                data-slick='{"slidesToShow": 3, "responsive":[{"breakpoint": 1024,"settings":{"slidesToShow": 2}}, {"breakpoint": 768,"settings":{"slidesToShow": 1}}]}'>
+                {% for services in featured_services %}
+                <div class="slick-slide-item">
+                    <div class="service-box-3">
+                        <div class="service-thumbnail">
+                            <a href="#" class="service-img">
+                                <div class="tag-2">Featured</div>
+                                <div class="price-box">
+                                    <span>₹{{ services.featured_package_price | intcomma }} </span>
+                                </div>
+                                <img class="d-block w-100" src="{{ services.service_photo_0.url }}" alt=""
+                                    height="262px">
+                            </a>
+                            <div class="servicebox-overlap-wrapper">
+                                <div class="overlap-box">
+                                    <div class="overlap-btns-area">
+                                        <div class="service-magnify-gallery">
+                                            {% if services.service_photo_1 %}
+                                            <a href="{{ services.service_photo_1.url }}" class="overlap-btn">
+                                                <i class="fa fa-expand"></i>
+                                                <img class="hidden" src="{{ services.service_photo_1.url }}">
+                                            </a>
+                                            {% endif %}
+                                            {% if services.service_photo_2 %}
+                                            <a href="{{ services.service_photo_2.url }}" class="hidden">
+                                                <img class="hidden" src="{{ services.service_photo_2.url }}">
+                                            </a>
+                                            {% endif %}
+                                            {% if services.service_photo_3 %}
+                                            <a href="{{ services.service_photo_3.url }}" class="hidden">
+                                                <img class="hidden" src="{{ services.service_photo_3.url }}">
+                                            </a>
+                                            {% endif %}
+                                            {% if services.service_photo_4 %}
+                                            <a href="{{ services.service_photo_4.url }}" class="hidden">
+                                                <img class="hidden" src="{{ services.service_photo_4.url }}">
+                                            </a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail">
+                            <h1 class="title">
+                                <a href="/services/service_detail/{{services.id}}">{{ services.title }}</a>
+                            </h1>
+                            <div class="location">
+                                <a href="#">
+                                    <i class="flaticon-pin"></i> {{ services.city }}, {{ services.state }}
+                                </a>
+                            </div>
+                            <ul class="facilities-list clearfix">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="slick-btn">
+                <div class="slick-prev slick-arrow-buton sab-4">
+                    <i class="fa fa-angle-left"></i>
+                </div>
+                <div class="slick-next slick-arrow-buton sab-3">
+                    <i class="fa fa-angle-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

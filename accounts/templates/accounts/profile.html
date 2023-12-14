@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %} | Dashboard {% endblock %}
+
+{% block content %}
+
+{% load humanize %}
+
+{% load static %}
+
+
+<div class="sub-banner overview-bgi">
+    <div class="container breadcrumb-area">
+        <div class="breadcrumb-areas">
+            <h1>Profile</h1>
+            <ul class="breadcrumbs">
+                <li><a href="/">Home</a></li>
+                <li class="active">{{user.first_name}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+</br>
+{% include 'includes/messages.html' %}
+<div class="contact-2 content-area-5">
+    <div class="container">
+        <div class="main-title" style="text-align:left !important;">
+            <h1>Welcome <span>{{user.first_name}}</span></h1>
+            <p>You can update your profile details from here.</p>
+        </div>
+        <!-- <div class="main-title text-center">
+            <h1>Update <span>Profile</span></h1>
+        </div> -->
+        <form method="POST" action="{% url 'update_profile' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+
+                        <input type="hidden" name="vendor_id" class="form-control" value="{{user.id}}" required>
+                        <div class="col-md-6 text-left">
+                            <div class="form-group name">
+                                <label for="username" class="col-form-label">Username</label>
+                                <input type="text" name="username" class="form-control" value="{{user.username}}" style="background-color: rgba(255, 0, 0, 0.445);" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group name">
+                                <label for="email" class="col-form-label">Email</label>
+                                <input type="text" name="email" class="form-control" value="{{user.email}}" style="background-color: rgba(255, 0, 0, 0.445);" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-left">
+                            <div class="form-group name">
+                                <label for="firstname" class="col-form-label">First Name</label>
+                                <input type="text" name="firstname" class="form-control" value="{{user.first_name}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group name">
+                                <label for="lastname" class="col-form-label">Last Name</label>
+                                <input type="text" name="lastname" class="form-control" value="{{user.last_name}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-left">
+                            <div class="form-group name">
+                                <input type="password" name="password" class="form-control" placeholder="Change Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="send-btn text-center">
+                                <button type="submit" class="btn btn-md update-button-theme">Update</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="send-btn text-center">
+                                <button type="submit" class="btn btn-md delete-button-theme" formaction="{% url 'delete_profile' %}">Delete Profile</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

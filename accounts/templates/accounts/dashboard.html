@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+
+{% block title %} | Dashboard {% endblock %}
+
+{% block content %}
+
+{% load humanize %}
+
+{% load static %}
+
+
+<div class="sub-banner overview-bgi">
+    <div class="container breadcrumb-area">
+        <div class="breadcrumb-areas">
+            <h1>Dashboard</h1>
+            <ul class="breadcrumbs">
+                <li><a href="/">Home</a></li>
+                <li class="active">{{user.first_name}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% include 'includes/messages.html' %}
+
+
+<div class="contact-2 content-area-5">
+    <div class="container">
+        <div class="main-title" style="text-align:left !important;">
+            <h1>Welcome <span>{{user.first_name}}</span></h1>
+        </div>
+        {% if is_vendor %}
+        <div>
+            <div class="container mt-50 mb-50">
+                <div class="main-title text-center"><h1>Booking <span>History</span></h1></div>
+                {% if payments %}
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Service Name</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Event Start Date</th>
+                            <th scope="col">Event End Date</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for payment in payments %}
+                        <tr>
+                            <td>{{ payment.title }}</td>
+                            <td>{{ payment.user.username }}</td>
+                            <td>{{ payment.phone }}</td>
+                            <td>{{ payment.start_date.date}}</td>
+                            <td>{{ payment.end_date.date}}</td>
+                            <td>₹{{ payment.amount | intcomma }}</td>
+                            <td><form method="POST" action="/orders/delete_order/{{ payment.id }}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-dark">Cancel</button></form></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <h4> You have no booking history !</h4>
+                {% endif %}
+            </div>
+
+            <div class="container">
+                <div class="main-title">
+                    <h1>Existing <span>Services</span></h1>       
+                </div>
+                <div class="slick-slider-area clearfix">
+                    <div class="row slick-carousel"
+                        data-slick='{"slidesToShow": 3, "responsive":[{"breakpoint": 1024,"settings":{"slidesToShow": 2}}, {"breakpoint": 768,"settings":{"slidesToShow": 1}}]}'>
+                        
+                        {% for services in their_services %}
+                        <div class="slick-slide-item">
+                            <div class="service-box-3">
+                                <div class="service-thumbnail">
+                                    <a href="#" class="service-img">
+                                        <div class="price-box">
+                                            <span>₹{{ services.featured_package_price | intcomma }} </span>
+                                        </div>
+                                        <img class="d-block w-100" src="{{ services.service_photo_0.url }}" alt=""
+                                            height="262px">
+                                    </a>
+                                    <div class="servicebox-overlap-wrapper">
+                                        <div class="overlap-box">
+                                            <div class="overlap-btns-area">
+                                                <div class="service-magnify-gallery">
+                                                    {% if services.service_photo_1 %}
+                                                    <a href="{{ services.service_photo_1.url }}" class="overlap-btn">
+                                                        <i class="fa fa-expand"></i>
+                                                        <img class="hidden" src="{{ services.service_photo_1.url }}">
+                                                    </a>
+                                                    {% endif %}
+                                                    {% if services.service_photo_2 %}
+                                                    <a href="{{ services.service_photo_2.url }}" class="hidden">
+                                                        <img class="hidden" src="{{ services.service_photo_2.url }}">
+                                                    </a>
+                                                    {% endif %}
+                                                    {% if services.service_photo_3 %}
+                                                    <a href="{{ services.service_photo_3.url }}" class="hidden">
+                                                        <img class="hidden" src="{{ services.service_photo_3.url }}">
+                                                    </a>
+                                                    {% endif %}
+                                                    {% if services.service_photo_4 %}
+                                                    <a href="{{ services.service_photo_4.url }}" class="hidden">
+                                                        <img class="hidden" src="{{ services.service_photo_4.url }}">
+                                                    </a>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="detail" style="align-content: center;">
+                                    <h1 class="title">
+                                        <a style="align-content: center;" href="/services/service_detail/{{ services.id }}">{{ services.title }}</a>
+                                    </h1>
+                                    <div class="title">
+                                        <div class="send-btn text-center">
+                                            <div class="row" style="justify-content: space-around;">
+                                                <a href="/services/update_service/{{ services.id }}"><button class="btn btn-md update-button-theme">Update</button></a>
+                                                <form method="POST" action="/services/delete_service/{{ services.id }}">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-md delete-button-theme">Delete</button></form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ul class="facilities-list clearfix">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="send-btn text-center">
+                        <a href="/services/add_service/{{ user.id }}"><button class="btn btn-md update-button-theme">Add New</button></a>
+                    </div>
+                    <br>
+                    <div class="slick-btn">
+                        <div class="slick-prev slick-arrow-buton sab-4">
+                            <i class="fa fa-angle-left"></i>
+                        </div>
+                        <div class="slick-next slick-arrow-buton sab-3">
+                            <i class="fa fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% else %}
+        <div class="container mt-50 mb-50">
+            <div class="main-title text-center"><h1>Booking <span>History</span></h1></div>
+            {% if payments %}
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Service Name</th>
+                            <th scope="col">Vendor</th>
+                            <th scope="col">Booking Date</th>
+                            <th scope="col">Event Start Date</th>
+                            <th scope="col">Event End Date</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for payment in payments %}
+                        <tr>
+                            <td>{{ payment.title }}</td>
+                            <td>{{ payment.vendor.username }}</td>
+                            <td>{{ payment.created_date.date}}</td>
+                            <td>{{ payment.start_date.date}}</td>
+                            <td>{{ payment.end_date.date}}</td>
+                            <td>₹{{ payment.amount | intcomma }}</td>
+                            <td>
+                                <form method="POST" action="/orders/delete_order/{{ payment.id }}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-dark">Cancel</button></form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        
+            {% else %}
+                <h4> You have no booking history !</h4>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+</div>
+{% endblock %}

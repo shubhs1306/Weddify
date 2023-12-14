@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block title %} | Register {% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="sub-banner overview-bgi">
+    <div class="container breadcrumb-area">
+        <div class="breadcrumb-areas">
+            <h1>Create an Account</h1>
+            <ul class="breadcrumbs">
+                <li><a href="/">Home</a></li>
+                <li class="active">Login</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="contact-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="form-section">
+                    <h3>Create an account</h3>
+                    {% include 'includes/messages.html' %}
+                    <form action="{% url 'register' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group form-box">
+                            <input type="text" name="firstname" class="input-text" placeholder="First Name" required>
+                            
+                            <i class="fa fa-user-circle-o"></i>
+                        </div>
+                        <div class="form-group form-box">
+                            <input type="text" name="lastname" class="input-text" placeholder="Last Name" required>
+                            <i class="fa fa-user-circle-o"></i>
+                        </div>
+                        <div class="form-group form-box">
+                            <input type="text" name="username" class="input-text" placeholder="Username" required>
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <div class="form-group form-box">
+                            <input type="email" name="email" class="input-text" placeholder="Email Address" required>
+                            <i class="fa fa-envelope"></i>
+                        </div>
+                        <div class="form-group form-box">
+                            <input type="password" name="password" id="psw" class="input-text" placeholder="Password"
+                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                required>
+                            <i class="fa fa-key"></i>
+                        </div>
+                        <div class="form-group form-box">
+                            <input type="password" name="confirm_password" id="t2" class="input-text"
+                                placeholder="Confirm Password" required>
+                            <i class="fa fa-key"></i>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check my-2 mr-2">
+                                <input class="form-check-input" name="is_vendor" type="checkbox" onchange="myFunction()"
+                                    id="isVendor" />
+                                <label class="form-check-label" for="isVendor">I'm a Vendor</label>
+                            </div>
+                        </div>
+                        <div class="form-group my-2">
+                            <select class="form-control search-fields" hidden="hidden" id="serviceDropdown"
+                                name="service_type">
+                                <option selected="true" disabled="disabled">Service type</option>
+                                <option value="Photographer">Photographer</option>
+                                <option value="Venue">Venue</option>
+                                <option value="Caterer">Caterer</option>
+                                <option value="Bridal Services">Bridal Services</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-0 clearfix">
+                            <button type="submit" class="btn-md btn-theme float-center">Register</button>
+                        </div>
+                    </form>
+                    <br><p>Already a member? <a href="{% url 'login' %}"> Login here</a></p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function myFunction() {
+        var x = document.getElementById("isVendor").checked;
+        console.log(x);
+        if (x) {
+            document.getElementById("serviceDropdown").removeAttribute("hidden")
+        } else {
+            document.getElementById("serviceDropdown").setAttribute("hidden", "hidden")
+        }
+    }
+</script>
+
+
+<script>
+    var myInput = document.getElementById("psw");
+    var letter = document.getElementById("letter");
+    var capital = document.getElementById("capital");
+    var number = document.getElementById("number");
+    var length = document.getElementById("length");
+
+    // When the user clicks on the password field, show the message box
+    myInput.onfocus = function () {
+        document.getElementById("message").style.display = "block";
+    }
+
+    // When the user clicks outside of the password field, hide the message box
+    myInput.onblur = function () {
+        document.getElementById("message").style.display = "none";
+    }
+
+    // When the user starts to type something inside the password field
+    myInput.onkeyup = function () {
+        // Validate lowercase letters
+        var lowerCaseLetters = /[a-z]/g;
+        if (myInput.value.match(lowerCaseLetters)) {
+            letter.classList.remove("invalid");
+            letter.classList.add("valid");
+        } else {
+            letter.classList.remove("valid");
+            letter.classList.add("invalid");
+        }
+
+        // Validate capital letters
+        var upperCaseLetters = /[A-Z]/g;
+        if (myInput.value.match(upperCaseLetters)) {
+            capital.classList.remove("invalid");
+            capital.classList.add("valid");
+        } else {
+            capital.classList.remove("valid");
+            capital.classList.add("invalid");
+        }
+
+        // Validate numbers
+        var numbers = /[0-9]/g;
+        if (myInput.value.match(numbers)) {
+            number.classList.remove("invalid");
+            number.classList.add("valid");
+        } else {
+            number.classList.remove("valid");
+            number.classList.add("invalid");
+        }
+
+        // Validate length
+        if (myInput.value.length >= 8) {
+            length.classList.remove("invalid");
+            length.classList.add("valid");
+        } else {
+            length.classList.remove("valid");
+            length.classList.add("invalid");
+        }
+    }
+</script>
+
+</body>
+
+</html>
+
+{% endblock %}

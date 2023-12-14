@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <title>Invoice Weddify</title>
+<style>
+  .clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+a {
+  text-decoration: underline;
+}
+
+body {
+  position: relative;
+  margin: 0 auto; 
+  color: #001028;
+  background: #FFFFFF; 
+  font-family: Arial, sans-serif; 
+  font-size: 14px; 
+  font-family: Arial;
+}
+
+header {
+  padding: 10px 0;
+  margin-bottom: 30px;
+}
+
+#logo {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#logo img {
+  width: 100px;
+}
+
+h1 {
+  
+  color: #5D6975;
+  font-size: 2.4em;
+  line-height: 1.4em;
+  font-weight: normal;
+  text-align: center;
+  margin: 0 0 20px 0;
+}
+
+footer {
+  color: #5D6975;
+  width: 100%;
+  height: 30px;
+  position: absolute;
+  bottom: 0;
+  border-top: 1px solid #C1CED9;
+  padding: 8px 0;
+  text-align: center;
+}
+
+
+  </style>
+</head>
+
+<body>
+  <header class="clearfix">
+    <div id="logo" style="display:flex; justify-content:center; align-items:center;">
+      <img src="{% static 'img/logos/weddify_logo.png' %}" class="brand-logo" width=100 height=100>
+      <!-- <h1 class="brand-name">Weddify</h1> -->
+    </div>
+    <h1>INVOICE</h1>
+    <div id="company" class="clearfix">
+      <div>Weddify</div>
+      <div><a href="mailto:no.reply.weddify@gmail.com">no.reply.weddify@gmail.com</a></div>
+      <div><a href="https://weddify.duckdns.org">https://weddify.duckdns.org</a></div>
+    </div>
+    <div id="project">
+      <div><span>FIRST NAME:</span> {{first_name}}</div>
+      <div><span>LAST NAME:</span> {{last_name}}</div>
+      <div><span>PHONE NUMBER:</span> {{phone}}</div>
+      <div><span>EMAIL ID:</span> <a href="mailto:{{email}}">{{email}}</a></div>
+      <div><span>DATE:</span> {{date}}</div>
+      <div><span>SERVICE NAME:</span> {{title}}</div>
+      <div><span>INVOICE ID:</span> {{order_id}}</div>
+      <div><span>TRANSACTION ID:</span> {{transaction_id}}</div>
+      <div><span>AMOUNT:</span> {{amount}}</div>
+      <div><span>EVENT START DATE:</span> {{start_date}}</div>
+      <div><span>EVENT END DATE:</span> {{end_date}}</div>
+    </div>
+    <br>
+  </header>
+    <p style="text-align:right; font-size:12px;">*All values are in INR<p>
+</body>
+
+</html>

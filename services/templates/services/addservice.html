@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block title %} | Add Service  {% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+
+<div class="sub-banner overview-bgi">
+    <div class="container breadcrumb-area">
+        <div class="breadcrumb-areas">
+            <h1>Add Service</h1>
+            <ul class="breadcrumbs">
+                <li><a href="/">Home</a></li>
+                <li class="active">Add Service</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="contact-2 content-area-5">
+    <div class="container">
+        <div class="main-title text-center">
+            <h1>Add <span>Service</span></h1>
+            <p>Kindly enter your business details to add your services.</p>
+        </div>
+        <form method="POST" action="{% url 'add_service' user.id %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+        
+                        <input type="hidden" name="vendor_id" class="form-control" value="{{user.id}}" required>
+        
+                        <div class="col-md-6 text-left">
+                            <div class="form-group name">
+                                <input type="text" name="title" class="form-control" placeholder="Title" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group email">
+                                <input type="text" name="service_type" class="form-control"
+                                    value="{{vendor.service_type}}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-left">
+                            <div class="form-group city">
+                                <input type="text" name="city" class="form-control" placeholder="City" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-left">
+                            <div class="form-group">
+                                <select class="form-control search-fields" name="state">
+                                    <option selected="true" disabled="disabled">Select State </option>
+                                    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                    <option value="Assam">Assam</option>
+                                    <option value="Bihar">Bihar</option>
+                                    <option value="Chandigarh">Chandigarh</option>
+                                    <option value="Chhattisgarh">Chhattisgarh</option>
+                                    <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                                    <option value="Daman and Diu">Daman and Diu</option>
+                                    <option value="Delhi">Delhi</option>
+                                    <option value="Goa">Goa</option>
+                                    <option value="Gujarat">Gujarat</option>
+                                    <option value="Haryana">Haryana</option>
+                                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                    <option value="Jharkhand">Jharkhand</option>
+                                    <option value="Karnataka">Karnataka</option>
+                                    <option value="Kerala">Kerala</option>
+                                    <option value="Ladakh">Ladakh</option>
+                                    <option value="Lakshadweep">Lakshadweep</option>
+                                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                    <option value="Maharashtra">Maharashtra</option>
+                                    <option value="Manipur">Manipur</option>
+                                    <option value="Meghalaya">Meghalaya</option>
+                                    <option value="Mizoram">Mizoram</option>
+                                    <option value="Nagaland">Nagaland</option>
+                                    <option value="Odisha">Odisha</option>
+                                    <option value="Puducherry">Puducherry</option>
+                                    <option value="Punjab">Punjab</option>
+                                    <option value="Rajasthan">Rajasthan</option>
+                                    <option value="Sikkim">Sikkim</option>
+                                    <option value="Tamil Nadu">Tamil Nadu</option>
+                                    <option value="Telangana">Telangana</option>
+                                    <option value="Tripura">Tripura</option>
+                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                    <option value="Uttarakhand">Uttarakhand</option>
+                                    <option value="West Bengal">West Bengal</option>
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+        
+        
+                        <div class="col-md-6 text-left">
+                            <div class="form-group name">
+                                <input type="file" name="service_photo_0" class="form-control" required>
+                                <input type="file" name="service_photo_1" class="form-control">
+                                <input type="file" name="service_photo_2" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-left">
+                            <div class="form-group name">
+                                <input type="text" name="featured_package_price" class="form-control" placeholder="Price" required>
+                                <input type="file" name="service_photo_3" class="form-control">
+                                <input type="file" name="service_photo_4" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group message">
+                                <textarea name="description"
+                                    placeholder="Write description"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group message">
+                                <textarea name="other_details"
+                                    placeholder="Write other details"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="send-btn text-center">
+                                <button type="submit" class="btn btn-md button-theme">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+    CKEDITOR.replace('description');  
+    CKEDITOR.replace('other_details');  
+</script>
+{% endblock %}

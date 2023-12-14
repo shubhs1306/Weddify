@@ -1,0 +1,14 @@
+
+            <!-- <a class="" href="{% url 'home' %}"> -->
+                        <!-- <a href="{% url 'contactus' %}" class="nav-link"> -->
+                            <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="{% url 'services' %}">
+                            <!-- <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="{% url 'services' %}"> -->
+                                <!-- <a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a> -->
+                                <!-- <a class="dropdown-item" href="{% url 'profile' %}">Profile</a> -->
+                                    <!-- <form action="{% url 'logout' %}" id="logout" method="POST"> -->
+                        <!-- <a href="{% url 'login' %}" class="nav-link" ><i class="fa fa-sign-in"></i> Login</a> -->
+                        <!-- <a href="{% url 'register' %}" class="nav-link"><i class="fa fa-user"></i> Register</a> -->
+
+
+                        
+    <link rel="stylesheet" type="text/css" href="{% static 'css/animate.min.css' %}">

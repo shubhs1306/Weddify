@@ -1,0 +1,32 @@
+{% load static %}
+
+<footer class="footer">
+    
+    <div class="sub-footer">
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="copy">
+                        <p><br> <a href="#"><img src="{% static 'img/logos/weddify_logo.png' %}" alt="Weddify"></a></p>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="copy">
+                        <p style="font-size: 20px; color: pink; text-align: center;">A wedding planner website. Made with &#10084; by Sparsh Kumar.</p>
+                        <p style="font-size: 13.9px; line-height: 170%; text-align: justify;">This website is based on <b>Microservices Architecture</b>. 
+                            It consist of 5 microservices - Services, Orders, Pages and Accounts, all written using <b>Django</b>, 
+                            and Email Notification, written using <b>Springboot</b>.
+                            <b>Django Templates</b> are used for Dynamic rendering of HTML and Javascript codes. <b>Bootstrap</b> is used for responsive frontend. 
+                            All the microservices use <b>RabbitMQ</b> and <b>Celery</b> for asynchronous intercomponent communication. 
+                            All the microservices are made as <b>Docker</b> containers and hosted on <b>AWS EC2</b>. 
+                            A nginx server is used as <b>Reverse Proxy</b>. 
+                            All the static and media files are stored on <b>AWS S3</b>.
+                            Payments are handled using <b>Razorpay</b> Payment Gateway.
+                            Finally DuckDns and Let's Encrypt are used for <b>Dynamic DNS</b> and <b>HTTPS SSL certificate</b>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
